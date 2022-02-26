@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useCallback, useEffect, useState } from "react"
+import Container from "./componentes/Container"
+import Center from "./componentes/Center"
 
-function App() {
+const App = () => {
+  const [characters, setCharacters] = useState([])
+  const fetchData = useCallback(async () => {
+    const data = await fetch('https://rickandmortyapi.com/api/character?page=7')
+    const dataJson = await data.json()
+    console.log(dataJson);
+    setCharacters(dataJson.results)    
+  }, [])
+  
+  useEffect(() => {
+    fetchData()
+      .catch(console.error)
+  }, [fetchData])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container>
+      <Center>
+      {characters.map(character =>
+        <img src={character.image} alt='200' key={character.id}/>)}
+      </Center>
+    </Container>
+  )
 }
 
-export default App;
+export default App
