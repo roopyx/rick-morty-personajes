@@ -2,14 +2,16 @@ import { useCallback, useEffect, useState } from "react"
 import Container from "./componentes/Container"
 import Center from "./componentes/Center"
 import Article from './componentes/Article'
-import { Formik } from "formik"
+import { Form, Formik, Field } from "formik"
+import Header from "./componentes/Header"
+import Html from "./componentes/Html"
 
 const App = () => {
   const [characters, setCharacters] = useState([])
   const open = url => window.open(url)
 
   const fetchData = useCallback(async () => {
-    const data = await fetch('https://rickandmortyapi.com/api/character?page=7')
+    const data = await fetch('https://rickandmortyapi.com/api/character?page=10')
     const dataJson = await data.json()
     setCharacters(dataJson.results)    
   }, [])
@@ -21,11 +23,22 @@ const App = () => {
 
   return (
     <div>
-      <header>
-        <Formik>
-          
-        </Formik>
-      </header>
+      <Html>
+        <Header>
+          <Formik
+            initialValues={{ search: '' }}
+            onSubmit={async values => {
+              const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${values.search}`, {})
+              const data = await response.json()
+              setCharacters(data.results)
+            }}  
+          >
+            <Form>
+              <Field name='search' />
+            </Form>
+          </Formik>
+        </Header>
+      </Html>
       <Container>
         <Center>
         {characters.map(character =>
