@@ -5,6 +5,8 @@ import Article from './componentes/Article'
 import { Form, Formik, Field } from "formik"
 import Header from "./componentes/Header"
 import Html from "./componentes/Html"
+import Footer from "./componentes/Footer"
+import Button from "./componentes/Button"
 
 const App = () => {
   const [characters, setCharacters] = useState([])
@@ -34,7 +36,7 @@ const App = () => {
             }}  
           >
             <Form>
-              <Field name='search' />
+              <Field name='search' placeholder='Name of character to filter' />
             </Form>
           </Formik>
         </Header>
@@ -50,6 +52,10 @@ const App = () => {
           </Article>)}
         </Center>
       </Container>
+      <Footer>
+        <Button>Atras</Button>
+        <Button>Siguiente</Button>
+      </Footer>
     </div>
   )
 }
